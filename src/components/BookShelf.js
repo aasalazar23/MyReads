@@ -11,8 +11,9 @@ export const BookShelf = ({books, children}) => {
       <h2 className="bookshelf-title">{children}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          <Book book={books[0]} />
-          <Book book={books[1]} />
+          {books.map(book =>
+            <Book book={book} />
+          )}
         </ol>
       </div>
     </div>
