@@ -1,5 +1,6 @@
 import React from "react";
 import { BookShelfChanger } from "./BookShelfChanger";
+import PropTypes from 'prop-types';
 
 export const Book = ({ book, onShelfChange }) => {
   return (
@@ -11,7 +12,9 @@ export const Book = ({ book, onShelfChange }) => {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: `url("${book.imageLinks.thumbnail}")`,
+              backgroundImage: !!book.imageLinks
+                ? `url("${book.imageLinks.thumbnail}")`
+                : 'url("https://i.pinimg.com/originals/d7/a3/ae/d7a3ae5506817d1ef60dabde37150fe9.png")',
             }}
           ></div>
           <BookShelfChanger onShelfChange={onShelfChange} book={book} />
@@ -28,3 +31,15 @@ export const Book = ({ book, onShelfChange }) => {
     </li>
   );
 };
+
+Book.propTypes = {
+  book: PropTypes.shape({
+    imageLinks: PropTypes.shape({
+      thumbnail: PropTypes.string.isRequired
+    }),
+    title: PropTypes.string.isRequired,
+    authors: PropTypes.arrayOf(PropTypes.string),
+  }),
+  onShelfChange: PropTypes.func.isRequired,
+
+}
