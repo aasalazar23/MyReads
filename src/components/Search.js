@@ -1,6 +1,7 @@
 import React from "react";
 import { BookShelf } from "./BookShelf";
 import * as BooksAPI from "../BooksAPI";
+import { Link } from "react-router-dom";
 
 export class Search extends React.Component {
   constructor(props) {
@@ -8,7 +9,25 @@ export class Search extends React.Component {
     this.state = {
       query: "",
       results: [],
+      books: [],
     };
+  }
+  checkedBooks = (results) => {
+    const shelvedBooks = this.props.shelvedBooks;
+    const ids = shelvedBooks.map(book => book.id);
+
+    if (results.error) {
+      this.setState({ books: [] })
+    } else {
+      const books = results.map((result) => {
+        if (ids.includes(result.id)) {
+          return shelvedBooks.find(book => book.id === result.id)
+        }
+        return result;
+      })
+      this.setState({ books });
+    }
+
   }
 
   handleQuery = event => {
@@ -18,6 +37,7 @@ export class Search extends React.Component {
     this.setState({ query: searchTerm });
     if (searchTerm) {
       BooksAPI.search(searchTerm).then(results => {
+        this.checkedBooks(results);
         this.setState({ results: results });
       });
     } else {
@@ -30,12 +50,7 @@ export class Search extends React.Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <button
-            className="close-search"
-            onClick={() => this.setState({ showSearchPage: false })}
-          >
-            Close
-          </button>
+          <Link to='/' className="close-search">Close</Link>
           <div className="search-books-input-wrapper">
             {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -55,7 +70,8 @@ export class Search extends React.Component {
         </div>
 
         <div className="search-books-results">
-          <BookShelf books={this.state.results} onShelfChange={this.props.onShelfChange}>Results</BookShelf>
+                {/* TODO: if shelved book in results, pass shelf to book render */}
+          <BookShelf books={this.state.books} onShelfChange={this.props.onShelfChange}>Results</BookShelf>
         </div>
       </div>
     );
