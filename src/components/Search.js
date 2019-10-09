@@ -17,9 +17,10 @@ export class Search extends React.Component {
     this.setState({ query: searchTerm });
     if (query) {
       BooksAPI.search(query).then(results => {
-        this.setState({ results: results });
+        this.setState({ results });
       });
     }
+    this.setState({ results: [] });
   };
 
   render() {
@@ -51,7 +52,7 @@ export class Search extends React.Component {
         </div>
 
         <div className="search-books-results">
-          <BookShelf books={this.state.results}>Results</BookShelf>
+          <BookShelf books={this.state.results} onShelfChange={this.props.onShelfChange}>Results</BookShelf>
         </div>
       </div>
     );
