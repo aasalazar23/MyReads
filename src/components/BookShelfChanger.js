@@ -4,7 +4,7 @@ export const BookShelfChanger = ({ onShelfChange, book }) => {
   return (
     <div className="book-shelf-changer">
       <select
-        defaultValue={book.shelf}
+        defaultValue={!!book.shelf ? book.shelf : "none"}
         onChange={event => {
           onShelfChange(event, book);
         }}
