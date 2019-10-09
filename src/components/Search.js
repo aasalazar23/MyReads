@@ -13,14 +13,17 @@ export class Search extends React.Component {
 
   handleQuery = event => {
     const { query } = this.state;
+    console.log(query);
     const searchTerm = event.target.value;
     this.setState({ query: searchTerm });
-    if (query) {
-      BooksAPI.search(query).then(results => {
-        this.setState({ results });
+    if (searchTerm) {
+      BooksAPI.search(searchTerm).then(results => {
+        this.setState({ results: results });
       });
+    } else {
+        this.setState({ results: [] });
     }
-    this.setState({ results: [] });
+
   };
 
   render() {
