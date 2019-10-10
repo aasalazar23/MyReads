@@ -12,7 +12,7 @@ export const BookShelf = ({ books, children, onShelfChange }) => {
       <div className="bookshelf-books">
         <ol className="books-grid">
           {books.map(book => (
-            <Book book={book} key={book.key} onShelfChange={onShelfChange} />
+            <Book book={book} key={book.id} onShelfChange={onShelfChange} />
           ))}
         </ol>
       </div>

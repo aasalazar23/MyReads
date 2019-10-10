@@ -22,8 +22,8 @@ export const Book = ({ book, onShelfChange }) => {
         <div className="book-title">{book.title}</div>
         {!!book.authors && !!book.authors.length && (
           <div className="book-authors">
-            {book.authors.map(author => (
-              <p>{author}</p>
+            {book.authors.map((author, authorIndex) => (
+              <p key={authorIndex}>{author}</p>
             ))}
           </div>
         )}
